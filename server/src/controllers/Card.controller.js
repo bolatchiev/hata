@@ -1,10 +1,11 @@
-const formatResponse = require('../utils/formatResponse');
 const CardService = require('../services/Card.service');
+const { formatResponse } = require('../utils/formatResponse');
 
 class CardController {
   static async getAllCards(req, res) {
     try {
       const cards = await CardService.getAll();
+      console.log(cards)
       if (cards.length === 0) {
         return res
           .status(400)

@@ -5,9 +5,21 @@ module.exports = (sequelize, DataTypes) => {
   class Card extends Model {
     static associate({ User, Favorite, Rate, Review }) {
       this.belongsTo(User, { foreignKey: 'userId', as: 'userPublisher' });
-      this.hasMany(Rate, { foreignKey: 'cardId', as: 'rates' });
-      this.hasMany(Review, { foreignKey: 'cardId', as: 'reviews' });
-      this.hasMany(Favorite, { foreignKey: 'cardId', as: 'favorites' });
+      this.belongsToMany(User, {
+        through: Rate,
+        foreignKey: "cardId",
+        as: "userRate",
+      });
+      this.belongsToMany(User, {
+        through: Review,
+        foreignKey: "cardId",
+        as: "userReview",
+      });
+      this.belongsToMany(User, {
+        through: Favorite,
+        foreignKey: "cardId",
+        as: "userFavorites",
+      });
     }
   }
   Card.init(

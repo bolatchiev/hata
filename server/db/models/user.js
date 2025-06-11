@@ -4,10 +4,24 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate({ Card, Favorite, Rate, Review }) {
-      this.hasMany(Card, { foreignKey: 'userId', as: 'myPublishedCards' });
-      this.hasMany(Rate, { foreignKey: 'userId', as: 'myRates' });
-      this.hasMany(Review, { foreignKey: 'userId', as: 'myReviews' });
-      this.hasMany(Favorite, { foreignKey: 'userId', as: 'myFavorites' });
+      this.hasMany(Card, { foreignKey: "userId", as: "myPublishedCards" });
+
+      this.belongsToMany(Card, {
+        foreignKey: "userId",
+        through: Rate,
+        as: "myRatedCards",
+      });
+
+      this.belongsToMany(Card, {
+        foreignKey: "userId",
+        through: Review,
+        as: "myReviewedCards",
+      });
+      this.belongsToMany(Card, {
+        foreignKey: "userId",
+        through: Favorite,
+        as: "myFavoriteCards",
+      });
     }
   }
   User.init(
