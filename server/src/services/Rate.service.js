@@ -10,7 +10,7 @@ class RateService {
     return rate;
   }
 
-  static async getAllRatesForCard(hataId) {
+  static async getAllRatesForHata(hataId) {
     return Rate.findAll({ where: { hataId } });
   }
 
