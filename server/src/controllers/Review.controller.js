@@ -7,9 +7,26 @@ class ReviewController {
 
     try {
       const cardReviews = await ReviewService.getAllReviewsForCard(cardId);
-      return res.status(200).json({ cardReviews });
+      return res
+        .status(200)
+        .json(
+          formatResponse({
+            statusCode: 200,
+            message: 'Отзыв предоставлен',
+            data: cardReviews,
+          }),
+        );
     } catch (error) {
-      return res.status(500).json({ error: 'Could not get reviewes' });
+      console.log(error);
+      return res
+        .status(500)
+        .json(
+          formatResponse({
+            statusCode: 500,
+            message: 'Невозможнно найти отзывы',
+            error: error.message,
+          }),
+        );
     }
   }
 
@@ -19,10 +36,26 @@ class ReviewController {
     const { text } = req.body;
     try {
       const review = await ReviewService.addReview({ cardId, userId, text });
-      return res.status(201).json(formatResponse(201, 'success', review));
-    } catch (err) {
-      console.error(err);
-      return res.status(500).json(formatResponse(500, 'Internal server error'));
+      return res
+        .status(201)
+        .json(
+          formatResponse({
+            statusCode: 200,
+            message: 'Отзыв успешно добавлен',
+            data: review,
+          }),
+        );
+    } catch (error) {
+      console.error(error);
+      return res
+        .status(500)
+        .json(
+          formatResponse({
+            statusCode: 500,
+            message: 'Internal server error',
+            error: error.message,
+          }),
+        );
     }
   }
 
@@ -30,10 +63,20 @@ class ReviewController {
     const { cardId } = req.params;
     try {
       const reviews = await ReviewService.getAllReviewsForCard(cardId);
-      return res.status(200).json(formatResponse(200, 'success', reviews));
-    } catch (err) {
-      console.error(err);
-      return res.status(500).json(formatResponse(500, 'Internal server error'));
+      return res
+        .status(200)
+        .json(formatResponse({ statusCode: 200, message: 'success', data: reviews }));
+    } catch (error) {
+      console.error(error);
+      return res
+        .status(500)
+        .json(
+          formatResponse({
+            statusCode: 500,
+            message: 'Internal server error',
+            error: error.message,
+          }),
+        );
     }
   }
 }

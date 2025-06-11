@@ -1,108 +1,56 @@
 const { Favorite, Card, User } = require('../../db/models');
 
 class FavoriteService {
-  static async addFavourites(userId, cardId) {
-    try {
-      const existingFavourite = await Favorite.findOne({
-        where: { userId, cardId },
-      });
-
-      if (existingFavourite) {
-        return {
-          statusCode: 400,
-          message: 'Это объявление уже в избранном',
-          error: 'DUPLICATE_FAVOURITE',
-        };
-      }
-
-      const favourite = await Favorite.create({ userId, cardId });
-      return {
-        statusCode: 200,
-        message: 'Добавлено в избранное',
-        data: favourite,
-      };
-    } catch (err) {
-      return {
-        statusCode: 500,
-        message: 'Ошибка сервера при добавлении в избранное',
-        error: err.message,
-      };
+  static async addFavourite(userId, cardId) {
+    const existingFavourite = await Favorite.findOne({
+      where: { userId, cardId },
+    });
+    if (existingFavourite) {
+      return null;
     }
+    const favourite = await Favorite.create({ userId, cardId });
+    return favourite.get({ plain: true });
   }
 
-  static async deleteFavourites(userId, cardId) {
-    try {
-      const deletedCount = await Favorite.destroy({
-        where: { userId, cardId },
-      });
-
-      if (!deletedCount) {
-        return {
-          statusCode: 404,
-          message: 'Объявление не найдено в избранном',
-          error: 'NOT_FOUND',
-        };
-      }
-
-      return {
-        statusCode: 200,
-        message: 'Удалено из избранного',
-        data: { success: true },
-      };
-    } catch (err) {
-      return {
-        statusCode: 500,
-        message: 'Ошибка сервера при удалении из избранного',
-        error: err.message,
-      };
-    }
+  static async deleteFavourite(userId, cardId) {
+    const deletedCount = await Favorite.destroy({
+      where: { userId, cardId },
+    });
+    return deletedCount > 0;
   }
 
   static async getUserFavourites(userId) {
-    try {
-      const favourites = await Favorite.findAll({
-        where: { userId },
-        include: [
-          {
-            model: Card,
-            as: 'card',
-            include: [{ model: User, as: 'userPublisher' }],
-          },
-        ],
-      });
+    const favourites = await Favorite.findAll({
+      where: { userId },
+      attributes: ['cardId'],
+    });
 
-      return {
-        statusCode: 200,
-        message: 'Список избранного получен',
-        data: favourites.map((fav) => fav.card),
-      };
-    } catch (err) {
-      return {
-        statusCode: 500,
-        message: 'Ошибка сервера при получении избранного',
-        error: err.message,
-      };
-    }
+    if (!favourites.length) return [];
+
+    const cardIds = favourites.map((el) => el.cardId);
+    const cards = await Card.findAll({
+      where: { id: cardIds },
+      raw: true,
+    });
+
+    const ownerIds = [...new Set(cards.map((c) => c.userId))];
+    const owners = await User.findAll({
+      where: { id: ownerIds },
+      attributes: ['id', 'name', 'email'],
+      raw: true,
+    });
+
+    return cards.map((card) => ({
+      ...card,
+      userPublisher: owners.find((el) => el.id === card.userId) || null,
+    }));
   }
 
   static async checkIsFavourite(userId, cardId) {
-    try {
-      const favourite = await Favorite.findOne({
-        where: { userId, cardId },
-      });
-
-      return {
-        statusCode: 200,
-        message: 'Проверка статуса избранного',
-        data: { isFavourite: !!favourite },
-      };
-    } catch (err) {
-      return {
-        statusCode: 500,
-        message: 'Ошибка сервера при проверке избранного',
-        error: err.message,
-      };
-    }
+    const favourite = await Favorite.findOne({
+      where: { userId, cardId },
+    });
+    return !!favourite;
   }
 }
 
