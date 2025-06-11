@@ -13,7 +13,11 @@ module.exports = {
         cardId: 3,
       },
       {
-        userId: 1,
+        userId: 3,
+        cardId: 3,
+      },
+      {
+        userId: 4,
         cardId: 3,
       },
     ]);
