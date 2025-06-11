@@ -1,10 +1,11 @@
-const router = require('express').Router();
+const cardRouter = require('express').Router();
 const CardController = require('../controllers/Card.controller');
 const RateController = require('../controllers/Rate.controller');
 const ReviewController = require('../controllers/Review.controller');
-const verifyAccessToken = require('../middleware/verifyAccessToken');
+const verifyAccessToken = require('../middlewares/verifyAccesToken');
+
 //
-router
+cardRouter
   .get('/', CardController.getAllCards)
   .get('/:id', CardController.getCardById)
   .post('/', CardController.createCard)
@@ -12,11 +13,11 @@ router
   .delete('/:id', CardController.deleteCard);
 
 // Рейтинги
-router.post('/:cardId/rates', verifyAccessToken, RateController.createOrUpdate);
-router.get('/:cardId/rates', RateController.getByCard);
+cardRouter.post('/:cardId/rates', verifyAccessToken, RateController.createOrUpdate);
+cardRouter.get('/:cardId/rates', RateController.getByCard);
 
 // Отзывы
-router.post('/:cardId/reviews', verifyAccessToken, ReviewController.add);
-router.get('/:cardId/reviews', ReviewController.getByCard);
+cardRouter.post('/:cardId/reviews', verifyAccessToken, ReviewController.add);
+cardRouter.get('/:cardId/reviews', ReviewController.getByCard);
 
-module.exports = router;
+module.exports = cardRouter;

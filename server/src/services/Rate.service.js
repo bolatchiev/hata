@@ -1,4 +1,4 @@
-const { Rate } = require('../db/models');
+const { Rate } = require('../../db/models');
 
 class RateService {
   static async createOrUpdate({ cardId, userId, mark }) {

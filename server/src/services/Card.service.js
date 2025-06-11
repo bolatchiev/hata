@@ -1,4 +1,4 @@
-const { Card, User } = require('../db/models');
+const { Card, User } = require('../../db/models');
 
 class CardService {
   static async getAll() {

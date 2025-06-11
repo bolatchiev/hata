@@ -1,7 +1,8 @@
 const express = require('express');
 const morgan = require('morgan');
-const indexRouter = require('./routes/index.router');
+const indexRouter = require('./routes/indexRouter');
 const serverConfig = require('./configs/serverConfig');
+
 require('dotenv').config()
 
 const app = express();
@@ -9,7 +10,6 @@ const PORT = process.env.PORT || 3001;
 serverConfig(app)
 
 app.use('/api', indexRouter)
-
 
 
 app.listen(PORT, () => {

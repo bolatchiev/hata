@@ -1,6 +1,5 @@
-const formatResponse = require("../utils/formatResponse");
-const isValidId = require("../utils/isValidId");
-const CardService = require("../services/Card.service");
+const formatResponse = require('../utils/formatResponse');
+const CardService = require('../services/Card.service');
 
 class CardController {
   static async getAllCards(req, res) {
@@ -8,24 +7,24 @@ class CardController {
       const cards = await CardService.getAll();
       if (cards.length === 0) {
         return res
-          .status(200)
-          .json(formatResponse(200, "No cards found", [], "No cards found"));
+          .status(400)
+          .json(formatResponse({ statusCode: 400, message: 'No cards found' }));
       }
-      return res.status(200).json(formatResponse(200, "success", cards));
+      return res
+        .status(200)
+        .json(formatResponse({ statusCode: 200, message: 'success', data: cards }));
     } catch ({ message }) {
       console.error(message);
-      res
-        .status(500)
-        .json(formatResponse(500, "Internal server error", null, message));
+      res.status(500).json(formatResponse({ statusCode: 500, message: 'Server error' }));
     }
   }
 
   static async getCardById(req, res) {
     const { id } = req.params;
-    if (!isValidId(+id)) {
+    if (isNaN(Number(id))) {
       return res
         .status(400)
-        .json(formatResponse(400, "Invalid id", id, "Invalid id"));
+        .json(formatResponse({ statusCode: 400, message: 'Invalid ID' }));
     }
 
     try {
@@ -33,14 +32,16 @@ class CardController {
       if (!card) {
         return res
           .status(404)
-          .json(formatResponse(404, `Card with id ${id} not found`));
+          .json(
+            formatResponse({ statusCode: 404, message: `Card with id ${id} not found` }),
+          );
       }
-      res.status(200).json(formatResponse(200, "success", card, "success"));
+      res
+        .status(200)
+        .json(formatResponse({ statusCode: 200, message: 'success', data: card }));
     } catch ({ message }) {
       console.error(message);
-      res
-        .status(500)
-        .json(formatResponse(500, "Internal server error", null, message));
+      res.status(500).json(formatResponse({ statusCode: 500, message: 'Server error' }));
     }
   }
 
@@ -48,32 +49,28 @@ class CardController {
     const { id } = req.params;
     const { data } = req.body;
 
-    if (!isValidId(+id)) {
+    if (isNaN(Number(id))) {
       return res
         .status(400)
-        .json(formatResponse(400, "Invalid id", null, "Invalid id"));
+        .json(formatResponse({ statusCode: 400, message: 'Invalid ID' }));
     }
 
     try {
       const updatedCard = await CardService.update(id, data);
       if (!updatedCard) {
-        return res
-          .status(404)
-          .json(
-            formatResponse(
-              404,
-              `Card with id ${id} not found and can't be updated`
-            )
-          );
+        return res.status(404).json(
+          formatResponse({
+            statusCode: 404,
+            message: `Card with id ${id} not found and can't be updated`,
+          }),
+        );
       }
       return res
         .status(200)
-        .json(formatResponse(200, "success", updatedCard, "success"));
+        .json(formatResponse({ statusCode: 200, message: 'success', data: updatedCard }));
     } catch ({ message }) {
       console.error(message);
-      res
-        .status(500)
-        .json(formatResponse(500, "Internal server error", null, message));
+      res.status(500).json(formatResponse({ statusCode: 500, message: 'Server error' }));
     }
   }
 
@@ -85,24 +82,21 @@ class CardController {
       if (!cardToDelete) {
         return res
           .status(404)
-          .json(formatResponse(404, `Card with id ${id} not found`));
+          .json(
+            formatResponse({ statusCode: 404, message: `Card with id ${id} not found` }),
+          );
       }
 
-      return res
-        .status(200)
-        .json(
-          formatResponse(
-            200,
-            "Card successfully deleted",
-            cardToDelete,
-            "Card successfully deleted"
-          )
-        );
+      return res.status(200).json(
+        formatResponse({
+          statusCode: 200,
+          message: 'Card successfully deleted',
+          data: cardToDelete,
+        }),
+      );
     } catch ({ message }) {
       console.error(message);
-      res
-        .status(500)
-        .json(formatResponse(500, "Internal server error", null, message));
+      res.status(500).json(formatResponse({ statusCode: 500, message: 'Server error' }));
     }
   }
 
@@ -114,18 +108,15 @@ class CardController {
       return res
         .status(200)
         .json(
-          formatResponse(
-            200,
-            "Card successfully created",
-            createdCard,
-            "Card successfully created"
-          )
+          formatResponse({
+            statusCode: 200,
+            message: 'Card successfully created',
+            data: cardToDelete,
+          }),
         );
     } catch ({ message }) {
       console.error(message);
-      res
-        .status(500)
-        .json(formatResponse(500, "Internal server error", null, message));
+      res.status(500).json(formatResponse({ statusCode: 500, message: 'Server error' }));
     }
   }
 }
