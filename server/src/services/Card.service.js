@@ -42,10 +42,12 @@ class CardService {
   static async update(id, data) {
     const card = await Card.findByPk(id);
     if (card) {
-      card.title = data.title;
+      card.photo = data.photo;
+      card.description = data.description;
+      card.price = data.price;
+      card.type = data.type;
       card.city = data.city;
-      card.length = data.length;
-      card.mapImg = data.mapImg;
+      card.flors = data.flors;
       await card.save();
     }
     return card;
