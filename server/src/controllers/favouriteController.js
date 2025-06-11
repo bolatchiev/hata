@@ -2,6 +2,19 @@ const FavoriteService = require('../services/favouriteService');
 const { formatResponse } = require('../utils/formatResponse');
 
 class FavoriteController {
+  static async getAllFavoritesForTest(req, res) {
+    try {
+      const testFavoriteCards = await FavoriteService.getAllForTest();
+
+      return res
+        .status(200)
+        .json({ statusCode: 200, message: 'Все избранные', data: testFavoriteCards });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ error: 'Не получилось найти избранные' });
+    }
+  }
+
   static async addToFavourites(req, res) {
     try {
       const { id: cardId } = req.params;
