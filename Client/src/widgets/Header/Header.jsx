@@ -1,24 +1,24 @@
 import React from "react";
 import { NavLink, useNavigate } from "react-router";
 import UserApi from "../../entities/user/UserApi";
-import { setAccessToken } from "../../shared/lib/axiosInstance";
+// import { setAccessToken } from "../../shared/lib/axiosInstance";
 import "./Header.css";
 
 export default function Header({ user, setUser }) {
   const navigate = useNavigate();
 
-  const handleSignOut = async () => {
+  const logoutHandler = async () => {
     try {
-      const response = await UserApi.signOut();
-      if (response.statusCode === 200) {
-        setUser(null);
-        setAccessToken("");
+      const data = await UserApi.logout();
+      if (data.statusCode === 200) {
+        setUser(() => ({}));
         navigate("/");
       } else {
-        alert(response.error || "Ошибка при выходе");
+        console.log(data.error);
       }
     } catch (error) {
-      alert(error.message || "Ошибка при выходе");
+      console.log(error);
+      return alert(error.response.data.error);
     }
   };
 
@@ -26,6 +26,7 @@ export default function Header({ user, setUser }) {
     <header className="header">
       <div className="header-container">
         <nav className="nav">
+          <img src="images/logo.png" alt="Logo" className="logo" />
           <NavLink
             to="/"
             className={({ isActive }) =>
@@ -49,7 +50,7 @@ export default function Header({ user, setUser }) {
           {user ? (
             <>
               <span className="user-email">{user.email}</span>
-              <button className="logout-btn" onClick={handleSignOut}>
+              <button className="logout-btn" onClick={logoutHandler}>
                 Выход
               </button>
             </>

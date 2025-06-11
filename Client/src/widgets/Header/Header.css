@@ -22,6 +22,11 @@
   gap: 20px;
 }
 
+.logo {
+  width: 40px;
+  height: 40px;
+}
+
 .nav__link {
   color: #ecf0f1;
   text-decoration: none;
@@ -36,7 +41,7 @@
 }
 
 .nav__link_active {
-  background-color: #3498db;
+  background-color: #2489cc;
   color: white;
 }
 
