@@ -3,6 +3,7 @@ const favouriteController = require('../controllers/favouriteController');
 const verifyAccessToken = require('../middlewares/verifyAccesToken');
 
 favouriteRouter
+  .get('/', favouriteController.getAllFavoritesForTest)
   .get('/:userId', favouriteController.getUserFavorites)
   .get('/check/:userId/:cardId', favouriteController.checkIsFavourite)
   .post('/:id', favouriteController.addToFavourites)

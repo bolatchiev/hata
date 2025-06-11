@@ -25,6 +25,11 @@ class FavoriteService {
     }
   }
 
+  static async getAllForTest() {
+    const result = await Favorite.findAll();
+    return result;
+  }
+
   static async getFavoritesByUser(userId) {
     try {
       const result = await Favorite.findAll({
