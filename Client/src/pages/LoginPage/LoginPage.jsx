@@ -14,7 +14,7 @@ export default function LoginPage({ setUser }) {
         navigate("/");
       }
     } catch (error) {
-      console.log(error);
+      console.log("не могу войти", error);
     }
   };
 

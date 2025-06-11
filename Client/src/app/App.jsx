@@ -15,7 +15,7 @@ export default function App() {
   useEffect(() => {
     const login = async () => {
       try {
-        const response = await UserApi.login();
+        const response = await UserApi.refresh();
         if (response.data) {
           setUser(response.data);
           setAccessToken(response.token);
@@ -40,13 +40,13 @@ export default function App() {
         <Route path="/" element={<Layout user={user} setUser={setUser} />}>
           <Route element={<MainPage />} />
           <Route
-            path="login"
+            path="/auth/login"
             element={
               user ? <Navigate to="/" /> : <LoginPage setUser={setUser} />
             }
           />
           <Route
-            path="register"
+            path="/auth/register"
             element={
               user ? <Navigate to="/" /> : <RegFormPage setUser={setUser} />
             }
