@@ -4,7 +4,7 @@
 const FilterCard = () => {
   return (
     <>
-      <h1></h1>
+      <h1>Hello</h1>
     </>
 
     // <div className="property-card">
