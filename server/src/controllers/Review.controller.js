@@ -1,5 +1,5 @@
 const ReviewService = require('../services/Review.service');
-const formatResponse = require('../utils/formatResponse');
+const {formatResponse} = require('../utils/formatResponse');
 
 class ReviewController {
   static async getReviewsForTheCard(req, res) {
