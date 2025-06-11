@@ -74,8 +74,8 @@ class FavoriteController {
 
   static async getUserFavourites(req, res) {
     try {
-      const { id: userId } = req.user;
-      const result = await FavoriteService.getUserFavourites(userId);
+      const { id } = req.user;
+      const result = await FavoriteService.getUserFavourites(id);
 
       res.status(200).json(
         formatResponse({
@@ -97,10 +97,8 @@ class FavoriteController {
 
   static async checkIsFavourite(req, res) {
     try {
-      const { id: cardId } = req.params;
-      const { id: userId } = req.user;
-
-      const result = await FavoriteService.checkIsFavourite(userId, cardId);
+      const { id } = req.params;
+      const result = await FavoriteService.checkIsFavourite(id);
 
       res.status(200).json(
         formatResponse({
@@ -117,6 +115,27 @@ class FavoriteController {
           error: error.message,
         }),
       );
+    }
+  }
+
+  static async switchFavorite(req, res) {
+    const userId = res.locals.user.id;
+    const { cardId } = req.params;
+
+    try {
+      const favoriteCard = await FavoriteService.isFavorite(userId, cardId);
+
+      if (favoriteCard) {
+        await FavoriteService.remove(userId, cardId);
+        return res
+          .status(200)
+          .json({ statusCode: 200, message: 'Удалено из избранного' });
+      }
+      await FavoriteService.add(userId, cardId);
+      return res.status(201).json({ statusCode: 201, message: 'Добавлено в избранное' });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ statusCode: 500, error: 'Ошибка сервера' });
     }
   }
 }
