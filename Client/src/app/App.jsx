@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router";
 import Layout from "./Layout/Layout";
@@ -15,7 +16,7 @@ export default function App() {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await UserApi.checkAuth();
+        const response = await UserApi.login();
         if (response.data) {
           setUser(response.data);
           setAccessToken(response.token);
@@ -27,7 +28,7 @@ export default function App() {
       }
     };
 
-    checkAuth();
+    login();
   }, []);
 
   if (loading) {
@@ -43,4 +44,4 @@ export default function App() {
       </Routes>
     </BrowserRouter>
   );
-}
+
