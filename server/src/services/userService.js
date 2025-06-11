@@ -14,8 +14,8 @@ class UserService {
     return result;
   }
   // * создание пользователя
-  static async registerUser({ username, email, password }) {
-    const user = await User.create({ username, email, password });
+  static async registerUser({ name, email, password }) {
+    const user = await User.create({ name, email, password });
     const result = user.get({ plain: true });
     return result;
   }
