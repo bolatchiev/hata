@@ -1,19 +1,18 @@
-const UserValidator = require('../utils/userValidator')
-const { formatResponse } = require('../utils/formatResponse')
-const generateToken = require('../utils/generateTokens')
-const UserService = require('../services/userService')
+const bcrypt = require('bcrypt');
+const { UserValidator } = require('../../../Client/src/entities/user/userValidate');
+const { formatResponse } = require('../utils/formatResponse');
+const UserService = require('../services/userService');
+const generateToken = require('../utils/generateToken')
 const cookieConfig = require('../configs/cookieConfig')
-const bcrypt = require('bcrypt')
-
 
 class AuthController {
   // * контроллер на создание
   static async register(req, res) {
     try {
-      const { username, email, password } = req.body
+      const { name, email, password } = req.body
       // * Применяем валидатор
       const { isValid, error } = UserValidator.validate({
-        username, email, password
+        name, email, password
       })
 
       if (!isValid) {
@@ -34,7 +33,7 @@ class AuthController {
           }))
         } else {
           const user = await UserService.registerUser({
-            username, email: normalizedEmail, password: hashedPassword
+            name, email: normalizedEmail, password: hashedPassword
           })
           // * Удаление пароля
           delete user.password
