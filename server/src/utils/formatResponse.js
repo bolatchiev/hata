@@ -3,6 +3,4 @@ module.exports.formatResponse = ({
   message = '',
   data = null,
   error = null,
-}) => {
-  return { statusCode, message, data, error };
-};
+}) => ({ statusCode, message, data, error });
