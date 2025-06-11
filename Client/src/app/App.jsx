@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router";
 import Layout from "./Layout/Layout";
@@ -14,7 +13,7 @@ export default function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const checkAuth = async () => {
+    const login = async () => {
       try {
         const response = await UserApi.login();
         if (response.data) {
@@ -44,4 +43,4 @@ export default function App() {
       </Routes>
     </BrowserRouter>
   );
-
+}
