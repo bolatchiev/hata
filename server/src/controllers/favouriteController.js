@@ -42,54 +42,80 @@ class FavoriteController {
       const { id: cardId } = req.params;
       const { id: userId } = req.user;
 
-      const result = await FavoriteService.deleteFavourite(userId, cardId);
-
-      if (!result) {
-        return res.status(404).json(
+      if (!cardId || !userId) {
+        return res.status(400).json(
           formatResponse({
-            statusCode: 404,
-            message: 'Объявление не найдено в избранном',
-            error: 'Объявление не найдено в избранном',
+            statusCode: 400,
+            message: 'Некорректные параметры запроса',
+            error: 'ID должны быть числами',
           }),
         );
       }
 
-      res.status(200).json(
+      const result = await FavoriteService.deleteFavourite(userId, cardId);
+
+      if (result === 0) {
+        return res.status(404).json(
+          formatResponse({
+            statusCode: 404,
+            message: 'Объявление не найдено в избранном',
+            data: { success: false },
+          }),
+        );
+      }
+
+      return res.status(200).json(
         formatResponse({
           statusCode: 200,
           message: 'Удалено из избранного',
-          data: { success: true },
+          data: { success: true, deletedCount: result },
         }),
       );
     } catch (error) {
-      res.status(500).json(
+      console.error('Error in removeFromFavourites:', error);
+      return res.status(500).json(
         formatResponse({
           statusCode: 500,
           message: 'Ошибка сервера при удалении из избранного',
-          error: error.message,
         }),
       );
     }
   }
 
-  static async getUserFavourites(req, res) {
-    try {
-      const { id } = req.user;
-      const result = await FavoriteService.getUserFavourites(id);
+  static async getUserFavorites(req, res) {
+    const { userId } = req.params;
 
-      res.status(200).json(
+    // Валидация userId
+    if (!userId) {
+      return res.status(400).json(
+        formatResponse({
+          statusCode: 400,
+          message: 'Неверный ID пользователя',
+          error: 'Некорректный формат ID пользователя',
+        }),
+      );
+    }
+
+    try {
+      const favoriteCards = await FavoriteService.getFavoritesByUser(userId);
+
+      return res.status(200).json(
         formatResponse({
           statusCode: 200,
-          message: 'Список избранного',
-          data: result,
+          message: 'Избранные карточки получены',
+          data: favoriteCards,
         }),
       );
     } catch (error) {
-      res.status(500).json(
+      console.error('Ошибка в getUserFavorites:', error);
+      return res.status(500).json(
         formatResponse({
           statusCode: 500,
-          message: 'Ошибка сервера при получении избранного',
-          error: error.message,
+          message: 'Ошибка сервера',
+          error:
+            process.env.NODE_ENV === 'development'
+              ? error.message
+              : 'Внутренняя ошибка сервера',
         }),
       );
     }
@@ -97,9 +123,21 @@ class FavoriteController {
 
   static async checkIsFavourite(req, res) {
     try {
-      const { id } = req.params;
-      const result = await FavoriteService.checkIsFavourite(id);
+      const { userId, cardId } = req.params;
 
+      if (!userId || !cardId) {
+        return res.status(400).json(
+          formatResponse({
+            statusCode: 400,
+            message: 'Не указаны userId или cardId',
+          }),
+        );
+      }
+
+      const result = await FavoriteService.checkIsFavourite(
+        Number(userId),
+        Number(cardId),
+      );
       res.status(200).json(
         formatResponse({
           statusCode: 200,
@@ -108,6 +146,7 @@ class FavoriteController {
         }),
       );
     } catch (error) {
+      console.error('Error in checkIsFavourite:', error);
       res.status(500).json(
         formatResponse({
           statusCode: 500,

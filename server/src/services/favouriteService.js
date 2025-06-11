@@ -7,20 +7,46 @@ class FavoriteService {
   }
 
   static async deleteFavourite(userId, cardId) {
-    const deletedCount = await Favorite.destroy({ where: { userId, cardId } });
-    return deletedCount;
+    try {
+      const numericUserId = Number(userId);
+      const numericCardId = Number(cardId);
+
+      const deletedCount = await Favorite.destroy({
+        where: {
+          userId: numericUserId,
+          cardId: numericCardId,
+        },
+      });
+
+      return deletedCount;
+    } catch (error) {
+      console.error('Error in deleteFavourite:', error);
+      throw error;
+    }
   }
 
-  static async getUserFavourites() {
-    const favourites = await User.findAll();
-    const result = favourites.map((el) => el.get({ plain: true }));
-    return result;
+  static async getFavoritesByUser(userId) {
+    try {
+      const result = await Favorite.findAll({
+        where: { userId: Number(userId) },
+      });
+
+      return result;
+    } catch (error) {
+      console.error('Ошибка в getFavoritesByUser:', error);
+      throw error;
+    }
   }
 
-  static async checkIsFavourite(id) {
-    const favourite = await Favorite.findByPk(id);
-    const result = favourite.get({ plain: true });
-    return result;
+  static async checkIsFavourite(userId, cardId) {
+    const favourite = await Favorite.findOne({
+      where: {
+        userId: Number(userId),
+        cardId: Number(cardId),
+      },
+    });
+
+    return !!favourite;
   }
 
   static async switchFavorite(userId, cardId) {
