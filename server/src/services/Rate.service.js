@@ -1,22 +1,22 @@
 const { Rate } = require('../db/models');
 
 class RateService {
-  static async createOrUpdate({ hataId, userId, mark }) {
+  static async createOrUpdate({ cardId, userId, mark }) {
     // если уже оценивал — обновляем, иначе создаём
     const [rate] = await Rate.upsert(
-      { hataId, userId, mark },
-      { where: { hataId, userId }, returning: true },
+      { cardId, userId, mark },
+      { where: { cardId, userId }, returning: true },
     );
     return rate;
   }
 
-  static async getAllRatesForHata(hataId) {
-    return Rate.findAll({ where: { hataId } });
+  static async getAllRatesForCard(cardId) {
+    return Rate.findAll({ where: { cardId } });
   }
 
   static async getAll() {
     return await Rate.findAll({
-      attributes: ['hataId', 'userId', 'mark'],
+      attributes: ['cardId', 'userId', 'mark'],
     });
   }
 

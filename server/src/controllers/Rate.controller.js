@@ -35,11 +35,11 @@ class RateController {
   }
 
   static async createOrUpdate(req, res) {
-    const { hataId } = req.params;
+    const { cardId } = req.params;
     const userId = res.locals.user.id;
     const { mark } = req.body;
     try {
-      const rate = await RateService.createOrUpdate({ hataId, userId, mark });
+      const rate = await RateService.createOrUpdate({ cardId, userId, mark });
       return res.status(201).json(formatResponse(201, 'success', rate));
     } catch (err) {
       console.error(err);
@@ -47,10 +47,10 @@ class RateController {
     }
   }
 
-  static async getByHata(req, res) {
-    const { hataId } = req.params;
+  static async getByCard(req, res) {
+    const { cardId } = req.params;
     try {
-      const rates = await RateService.getAllRatesForHata(hataId);
+      const rates = await RateService.getAllRatesForCard(cardId);
       return res.status(200).json(formatResponse(200, 'success', rates));
     } catch (err) {
       console.error(err);

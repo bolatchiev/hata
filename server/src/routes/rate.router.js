@@ -7,5 +7,5 @@ router
 //   .post('/', RateController.createRate)
 //   .put('/:id', RateController.updateRate)
 //   .delete('/:id', RateController.deleteRate);
-
+//
 module.exports = router;
