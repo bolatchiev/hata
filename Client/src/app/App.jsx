@@ -3,8 +3,8 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import Layout from "./Layout/Layout";
 import MainPage from "../pages/MainPage/MainPage";
 // import MapPage from "./pages/MapPage";
-// import LoginPage from "./pages/Auth/LoginPage";
-// import RegisterPage from "./pages/Auth/RegisterPage";
+import LoginPage from "../pages/LoginPage/LoginPage";
+import RegFormPage from "../pages/RegFormPage/RegFormPage";
 import UserApi from "../entities/user/userApi";
 import { setAccessToken } from "../shared/lib/axiosInstance";
 
@@ -21,7 +21,7 @@ export default function App() {
           setAccessToken(response.token);
         }
       } catch (error) {
-        console.error("Auth check failed:", error);
+        console.error("не смогла войти", error);
       } finally {
         setLoading(false);
       }
@@ -39,6 +39,18 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Layout user={user} setUser={setUser} />}>
           <Route element={<MainPage />} />
+          <Route
+            path="login"
+            element={
+              user ? <Navigate to="/" /> : <LoginPage setUser={setUser} />
+            }
+          />
+          <Route
+            path="register"
+            element={
+              user ? <Navigate to="/" /> : <RegFormPage setUser={setUser} />
+            }
+          />
         </Route>
       </Routes>
     </BrowserRouter>
