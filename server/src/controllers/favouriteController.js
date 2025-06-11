@@ -3,30 +3,121 @@ const { formatResponse } = require('../utils/formatResponse');
 
 class FavoriteController {
   static async addToFavourites(req, res) {
-    const { id: cardId } = req.params;
-    const { id: userId } = req.user;
-    const result = await FavoriteService.addFavourites(userId, cardId);
-    res.status(result.statusCode).json(formatResponse(result));
+    try {
+      const { id: cardId } = req.params;
+      const { id: userId } = req.user;
+
+      const result = await FavoriteService.addFavourite(userId, cardId);
+
+      if (!result) {
+        return res.status(400).json(
+          formatResponse({
+            statusCode: 400,
+            message: 'Это объявление уже в избранном',
+            error: 'Это объявление уже в избранном',
+          }),
+        );
+      }
+
+      res.status(200).json(
+        formatResponse({
+          statusCode: 200,
+          message: 'Добавлено в избранное',
+          data: result,
+        }),
+      );
+    } catch (error) {
+      res.status(500).json(
+        formatResponse({
+          statusCode: 500,
+          message: 'Ошибка сервера при добавлении в избранное',
+          error: error.message,
+        }),
+      );
+    }
   }
 
   static async removeFromFavourites(req, res) {
-    const { id: cardId } = req.params;
-    const { id: userId } = req.user;
-    const result = await FavoriteService.deleteFavourites(userId, cardId);
-    res.status(result.statusCode).json(formatResponse(result));
+    try {
+      const { id: cardId } = req.params;
+      const { id: userId } = req.user;
+
+      const result = await FavoriteService.deleteFavourite(userId, cardId);
+
+      if (!result) {
+        return res.status(404).json(
+          formatResponse({
+            statusCode: 404,
+            message: 'Объявление не найдено в избранном',
+            error: 'Объявление не найдено в избранном',
+          }),
+        );
+      }
+
+      res.status(200).json(
+        formatResponse({
+          statusCode: 200,
+          message: 'Удалено из избранного',
+          data: { success: true },
+        }),
+      );
+    } catch (error) {
+      res.status(500).json(
+        formatResponse({
+          statusCode: 500,
+          message: 'Ошибка сервера при удалении из избранного',
+          error: error.message,
+        }),
+      );
+    }
   }
 
   static async getUserFavourites(req, res) {
-    const { id: userId } = req.user;
-    const result = await FavoriteService.getUserFavourites(userId);
-    res.status(result.statusCode).json(formatResponse(result));
+    try {
+      const { id: userId } = req.user;
+      const result = await FavoriteService.getUserFavourites(userId);
+
+      res.status(200).json(
+        formatResponse({
+          statusCode: 200,
+          message: 'Список избранного',
+          data: result,
+        }),
+      );
+    } catch (error) {
+      res.status(500).json(
+        formatResponse({
+          statusCode: 500,
+          message: 'Ошибка сервера при получении избранного',
+          error: error.message,
+        }),
+      );
+    }
   }
 
   static async checkIsFavourite(req, res) {
-    const { id: cardId } = req.params;
-    const { id: userId } = req.user;
-    const result = await FavoriteService.checkIsFavourite(userId, cardId);
-    res.status(result.statusCode).json(formatResponse(result));
+    try {
+      const { id: cardId } = req.params;
+      const { id: userId } = req.user;
+
+      const result = await FavoriteService.checkIsFavourite(userId, cardId);
+
+      res.status(200).json(
+        formatResponse({
+          statusCode: 200,
+          message: 'Статус избранного',
+          data: { isFavourite: result },
+        }),
+      );
+    } catch (error) {
+      res.status(500).json(
+        formatResponse({
+          statusCode: 500,
+          message: 'Ошибка сервера при проверке избранного',
+          error: error.message,
+        }),
+      );
+    }
   }
 }
 

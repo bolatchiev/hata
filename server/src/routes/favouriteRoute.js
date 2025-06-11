@@ -3,7 +3,7 @@ const favouriteController = require('../controllers/favouriteController');
 
 favouriteRouter
   .get('/', favouriteController.getUserFavourites)
-  .get('/check/:id', favouriteController.checkIsFavourite)
+  .get('/:id', favouriteController.checkIsFavourite)
   .post('/:id', favouriteController.addToFavourites)
   .delete('/:id', favouriteController.removeFromFavourites);
 
