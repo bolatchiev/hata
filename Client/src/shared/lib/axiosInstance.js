@@ -1,13 +1,13 @@
-import axios from 'axios';
+import axios from "axios";
 
 export const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API,
-  headers: { 'Content-Type': 'application/json' },
+  headers: { "Content-Type": "application/json" },
   withCredentials: true,
 });
 
 // * переменная для хранения кратковременного токена
-let accessToken = '';
+let accessToken = "";
 
 // * используй эту ф-ию там, где ты ожидаешь приход токенов
 export function setAccessToken(token) {
@@ -32,7 +32,7 @@ axiosInstance.interceptors.response.use(
     // ? значит токен протух и нужна новая пара
     if (error.response.status === 403 && !prevRequest.sent) {
       // ? Делаем запрос на пару токенов
-      const response = await axiosInstance.get('/refresh');
+      const response = await axiosInstance.get("/refresh");
       // ? Достаём токен из ответа
       setAccessToken(response.data.accessToken);
       // ? создаём новый ключ и sent для проверки первичности
@@ -43,7 +43,7 @@ axiosInstance.interceptors.response.use(
       return axiosInstance(prevRequest);
     }
     return Promise.reject(error);
-  },
+  }
 );
 
 export default axiosInstance;

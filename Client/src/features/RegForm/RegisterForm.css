@@ -1,0 +1,80 @@
+.register-page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  background-color: #f8f9fa;
+  padding: 20px;
+}
+
+.register-form {
+  width: 100%;
+  max-width: 500px; /* Увеличили максимальную ширину */
+  padding: 40px; /* Увеличили отступы внутри формы */
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 100px;
+}
+
+.form-group {
+  margin-bottom: 25px; /* Увеличили отступ между полями */
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.form-input {
+  width: 94%;
+  padding: 15px; /* Увеличили padding для большего размера */
+  font-size: 16px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.form-input:focus {
+  border-color: #4a90e2;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+}
+
+.submit-button {
+  width: 100%;
+  padding: 15px; /* Увеличили padding кнопки */
+  font-size: 16px;
+  font-weight: 600;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #3a7bc8;
+}
+
+.submit-button:active {
+  background-color: #2a65a8;
+  transform: translateY(1px);
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+  .register-form {
+    padding: 30px;
+    max-width: 100%;
+  }
+
+  .form-input,
+  .submit-button {
+    padding: 12px;
+  }
+}

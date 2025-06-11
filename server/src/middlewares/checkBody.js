@@ -1,26 +1,26 @@
-const { User } = require('../../db/models')
+const { User } = require('../../db/models');
 
 function checkBody(req, res, next) {
-  const { name, email, password } = req.body
+  const { email, password } = req.body;
   if (!email || !password) {
-    res.send('Все поля должны быть заполнены. Ответ из мидлварки')
+    res.send('Все поля должны быть заполнены. Ответ из мидлварки');
   } else {
-    next()
+    next();
   }
 }
 
 async function checkId(req, res, next) {
-  const { id } = req.params
+  const { id } = req.params;
   if (Number(id)) {
-    const user = await User.findByPk(id)
+    const user = await User.findByPk(id);
     if (user) {
-      next()
+      next();
     } else {
-      res.status(400).send('Пользователь не найден')
+      res.status(400).send('Пользователь не найден');
     }
   } else {
-    res.status(400).send('Невалидный id. Должен быть числом')
+    res.status(400).send('Невалидный id. Должен быть числом');
   }
 }
 
-module.exports = { checkId, checkBody }
+module.exports = { checkId, checkBody };
