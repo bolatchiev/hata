@@ -9,16 +9,11 @@ export default function Header({ user, setUser }) {
 
   const logoutHandler = async () => {
     try {
-      const data = await UserApi.logout();
-      if (data.statusCode === 200) {
-        setUser(() => ({}));
-        navigate("/");
-      } else {
-        console.log(data.error);
-      }
+      await UserApi.logout();
+      setUser(null);
+      navigate("/");
     } catch (error) {
-      console.log(error);
-      return alert(error.response.data.error);
+      console.error(error);
     }
   };
 
@@ -49,21 +44,11 @@ export default function Header({ user, setUser }) {
         <div className="auth-section">
           {user ? (
             <>
-              <span className="user-email">{user.email}</span>
-              <button className="logout-btn" onClick={logoutHandler}>
-                Выход
-              </button>
+              <span>{user.email}</span>
+              <button onClick={logoutHandler}>Выход</button>
             </>
           ) : (
             <>
-              <NavLink
-                to="/auth/register"
-                className={({ isActive }) =>
-                  `auth-link ${isActive ? "auth-link_active" : ""}`
-                }
-              >
-                Регистрация
-              </NavLink>
               <NavLink
                 to="/auth/login"
                 className={({ isActive }) =>
@@ -71,6 +56,14 @@ export default function Header({ user, setUser }) {
                 }
               >
                 Войти
+              </NavLink>
+              <NavLink
+                to="/auth/register"
+                className={({ isActive }) =>
+                  `auth-link ${isActive ? "auth-link_active" : ""}`
+                }
+              >
+                Регистрация
               </NavLink>
             </>
           )}
