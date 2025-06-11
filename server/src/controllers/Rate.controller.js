@@ -1,5 +1,5 @@
 const RateService = require('../services/Rate.service');
-const formatResponse = require('../utils/formatResponse');
+const {formatResponse} = require('../utils/formatResponse');
 
 class RateController {
   static async getAllRates(req, res) {
