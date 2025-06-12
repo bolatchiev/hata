@@ -1,43 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
+import styles from './CardPage.module.css'; // Импорт стилей
 
-export default function CardPage({ el }) {
+export default function CardPage({ el }) {  
+  const [card, setCard] = useState(el)
+  console.log(el, 'vvvvvvvvvvvvvv')
   return (
-    <div className="user-card">
+    <div className={styles.card}>
       <img
-        src={el.image || 'images/logo.png'}
-        alt={el.type}
-        className="card-image"
+        src={card.photo || '/images/logo.png'}
+        alt={card.type}
+        className={styles.cardImage}
       />
-      <div className="card-content">
-        <div className="card-details">
-          <h3 className="card-type">{el.type}</h3>
-          <p className="card-description">{el.description}</p>
-          <div className="card-properties">
-            <span className="card-price">Цена: {el.price} ₽</span>
-            <span className="card-city">Город: {el.city}</span>
-            <span className="card-floors">Этажи: {el.flors}</span>
-          </div>
-        </div>
-        <div className="card-actions">
-          {canDelete && (
-            <button
-              className="btn delete-btn"
-              onClick={() => deleteHandler(el.id)}
-            >
-              Удалить
-            </button>
-          )}
-
-          {card.userId === user.id &&
-            (edit ? (
-              <button className="btn save-btn" onClick={handleSave}>
-                Сохранить
-              </button>
-            ) : (
-              <button className="btn edit-btn" onClick={() => setEdit(true)}>
-                Редактировать
-              </button>
-            ))}
+      <div className={styles.cardBody}>
+        <h3 className={styles.cardTitle}>{card.type}</h3>
+        <p className={styles.cardDescription}>{card.description}</p>
+        <div className={styles.cardDetails}>
+          <span className={styles.cardPrice}>Цена: {card.price} ₽</span>
+          <span className={styles.cardCity}>Город: {card.city}</span>
+          <span className={styles.cardRooms}>Комнат: {card.flors}</span>
         </div>
       </div>
     </div>
