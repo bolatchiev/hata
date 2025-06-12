@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router";
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router";
 import Layout from "./Layout/Layout";
 import MainPage from "../pages/MainPage/MainPage";
 // import MapPage from "./pages/MapPage";
 import LoginPage from "../pages/LoginPage/LoginPage";
 import RegFormPage from "../pages/RegFormPage/RegFormPage";
+import ProfilePage from "../pages/ProfilePage/ProfilePage";
 import UserApi from "../entities/user/userApi";
+import CardApi from "../entities/card/cardApi";
 import { setAccessToken } from "../shared/lib/axiosInstance";
-import 'leaflet/dist/leaflet.css';
 import OSMap from "../widgets/Map/OSMap";
-
 
 export default function App() {
   const [user, setUser] = useState({});
@@ -43,8 +43,8 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout user={user} setUser={setUser} />}>
-          <Route element={<MainPage />} />
-          <Route path="/map" element={<OSMap/>} />
+          <Route index element={<MainPage />} />
+          <Route path="/map" element={<OSMap />} />
           <Route
             path="/auth/login"
             element={
@@ -58,6 +58,16 @@ export default function App() {
                 <Navigate to="/" />
               ) : (
                 <RegFormPage setUser={setUser} />
+              )
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              user.name ? (
+                <ProfilePage user={user} />
+              ) : (
+                <Navigate to="/auth/login" />
               )
             }
           />
