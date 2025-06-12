@@ -9,8 +9,8 @@ export default function RegFormPage({ setUser }) {
   const handleRegSubmit = async (name, email, password) => {
     try {
       const response = await UserApi.registration({ name, email, password });
-      if (response.accessToken) {
-        setUser(response.user);
+      if (response.data.accessToken && response.statusCode === 200) {
+        setUser(response.data.user);
         navigate("/");
       }
     } catch (error) {

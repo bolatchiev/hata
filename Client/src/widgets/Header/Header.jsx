@@ -10,7 +10,7 @@ export default function Header({ user, setUser }) {
   const logoutHandler = async () => {
     try {
       await UserApi.logout();
-      setUser(null);
+      setUser({});
       navigate("/");
     } catch (error) {
       console.error(error);
@@ -42,7 +42,7 @@ export default function Header({ user, setUser }) {
         </nav>
 
         <div className="auth-section">
-          {user ? (
+          {user.name ? (
             <>
               <span>{user.email}</span>
               <button onClick={logoutHandler}>Выход</button>

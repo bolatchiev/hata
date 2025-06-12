@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router";
 import Layout from "./Layout/Layout";
 import MainPage from "../pages/MainPage/MainPage";
 // import MapPage from "./pages/MapPage";
@@ -9,16 +9,18 @@ import UserApi from "../entities/user/userApi";
 import { setAccessToken } from "../shared/lib/axiosInstance";
 
 export default function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const login = async () => {
       try {
         const response = await UserApi.refresh();
-        if (response.data) {
-          setUser(response.data);
-          setAccessToken(response.token);
+        console.log("111111111111111", response);
+        if (response.data.user) {
+          console.log("--------------------", response.data);
+          setUser(response.data.user);
+          setAccessToken(response.data.accessToken);
         }
       } catch (error) {
         console.error("не смогла войти", error);
@@ -42,13 +44,17 @@ export default function App() {
           <Route
             path="/auth/login"
             element={
-              user ? <Navigate to="/" /> : <LoginPage setUser={setUser} />
+              user.name ? <Navigate to="/" /> : <LoginPage setUser={setUser} />
             }
           />
           <Route
             path="/auth/register"
             element={
-              user ? <Navigate to="/" /> : <RegFormPage setUser={setUser} />
+              user.name ? (
+                <Navigate to="/" />
+              ) : (
+                <RegFormPage setUser={setUser} />
+              )
             }
           />
         </Route>
