@@ -15,6 +15,9 @@ const Footer = () => {
           <div className="footer-info">
             <span>support@example.com</span>
             <span>+7 (895) 265-88-99</span>
+            <span>
+              Адрес: г. Санкт-Петербург, Невский проспект, д.4, к.2, офис 6В
+            </span>
           </div>
         </div>
         <div className="footer-copyright">
