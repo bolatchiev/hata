@@ -4,8 +4,8 @@ import './FavouriteCard.css';
 const FavouriteCard = ({ card = {}, isFavorite, rating = 0, reviews = [], onToggleFavorite }) => {
   const safeCard = {
     photo: card.photo || '/public/images/logo.png',
-    type: card.type || 'Тип не указан',
-    city: card.city || 'Город не указан',
+    type: card.type || 'Объект недвижимости.',
+    city: card.city || 'Локация не указана',
     price: card.price ? `${card.price.toLocaleString()} ₽` : 'Цена не указана',
     flors: card.flors || 'Не указано',
     description: card.description || 'Описание отсутствует'
@@ -14,13 +14,13 @@ const FavouriteCard = ({ card = {}, isFavorite, rating = 0, reviews = [], onTogg
   return (
     <div className="favourite-card">
       <div className="card-header">
-        <h3>{safeCard.type} в {safeCard.city}</h3>
+        <h3>{safeCard.type}</h3>
         <button 
           onClick={onToggleFavorite}
           className={`favorite-btn ${isFavorite ? 'active' : ''}`}
           aria-label={isFavorite ? 'Удалить из избранного' : 'Добавить в избранное'}
         >
-          {isFavorite ? '❤️' : '♡'}
+          {isFavorite ? '💙' : '♡'}
         </button>
       </div>
       
@@ -30,19 +30,20 @@ const FavouriteCard = ({ card = {}, isFavorite, rating = 0, reviews = [], onTogg
         alt={`${safeCard.type} в ${safeCard.city}`} 
         onError={(e) => {
           e.target.onerror = null;
-          e.target.src = '/images/default-image.jpg';
+          e.target.src = '/public/images/def.png';
         }}
         loading="lazy"
       />
       
       <div className="card-info">
+        <p><strong>Город:</strong> {safeCard.city}</p>
+        <p><strong>Кол-во комнат:</strong> {safeCard.flors}</p>
         <p><strong>Цена:</strong> {safeCard.price}</p>
-        <p><strong>Этаж:</strong> {safeCard.flors}</p>
-        <p className="card-rating"><strong>Рейтинг:</strong> {rating}/5</p>
-        <p className="card-description">
+        {/* <p className="card-rating"><strong>Рейтинг:</strong> {rating}/5</p> */}
+        {/* <p className="card-description">
           {safeCard.description.substring(0, 100)}
           {safeCard.description.length > 100 ? '...' : ''}
-        </p>
+        </p> */}
       </div>
       
       {/* <div className="card-reviews">
