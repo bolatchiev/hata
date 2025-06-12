@@ -18,6 +18,22 @@ class CardService {
     });
   }
 
+  // static async getById(id) {
+  //   return await Card.findByPk(id, {
+  //     include: [
+  //       {
+  //         model: User,
+  //         as: 'userPublisher',
+  //         attributes: ['name'],
+  //       },
+  //       {
+  //         model: User,
+  //         as: 'userFavorites',
+  //         through: { attributes: [] },
+  //       },
+  //     ],
+  //   });
+  // }
   static async getById(id) {
     return await Card.findByPk(id, {
       include: [
@@ -28,8 +44,13 @@ class CardService {
         },
         {
           model: User,
-          as: 'userFavorites',
-          through: { attributes: [] },
+          as: 'userRate',
+          through: { attributes: ['mark'] },
+        },
+        {
+          model: User,
+          as: 'userReview',
+          through: { attributes: ['review'] },
         },
       ],
     });
