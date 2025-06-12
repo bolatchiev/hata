@@ -44,6 +44,16 @@ export default function Header({ user, setUser }) {
         <div className="auth-section">
           {user.name ? (
             <>
+
+            <NavLink
+            to="/favourite"
+            className={({ isActive }) =>
+              `nav__link ${isActive ? "nav__link_active" : ""}`
+            }
+          >
+            Избранное
+          </NavLink>
+
               <NavLink
                 to="/profile"
                 className={({ isActive }) =>
