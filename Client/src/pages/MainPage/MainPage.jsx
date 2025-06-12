@@ -1,10 +1,9 @@
 import FilterCard from '../../widgets/FilterCard';
 
 import React, { useEffect, useState } from 'react';
-import LoginPage from '../LoginPage/LoginPage';
-import RegFormPage from '../RegFormPage/RegFormPage';
 import TaskApi from '../../entities/card/cardApi';
 import CardPage from '../CardPage/CardPage';
+import styles from './MainPage.module.css'
 
 
 export default function MainPage() {
@@ -12,21 +11,23 @@ export default function MainPage() {
 
   useEffect(() => {
     async function getAllCards() {
-      const allCards = await TaskApi.getAll();
-      setCards(allCards);
+      try {
+        const allCards = await TaskApi.getAll();
+        setCards(allCards.data);
+      } catch (error) {
+        console.error("нет карточек", error);
+      }
     }
     getAllCards();
   }, []);
-console.log(cards, '------------------')
-  return (
-    <>
-      {cards?.map((el) => (
-            <CardPage key={el.id} entry={el} />
-          ))}
-      <FilterCard />
+  console.log(cards, '++++++++++++++++++');
 
-      <LoginPage />
-      <RegFormPage />
-    </>
+
+  return (
+    <div className={styles.cardGrid}>
+      {cards.map((el) => (
+        <CardPage key={el.id} el={el} />
+      ))}
+    </div>
   );
 }

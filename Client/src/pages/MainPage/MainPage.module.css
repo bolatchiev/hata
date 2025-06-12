@@ -1,0 +1,10 @@
+/* Контейнер для сетки карточек (добавьте в родительский компонент) */
+.cardGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 карточки в ряд */
+    gap: 20px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
