@@ -7,14 +7,11 @@ import { Outlet } from "react-router";
 export default function Layout({ user, setUser }) {
   return (
     <div className="layout">
-      <div className="header">
-        <Header user={user} setUser={setUser} />
-      </div>
-      <main className="main-content"></main>
-      <Outlet />
-      <div className="footer">
-        <Footer />
-      </div>
+      <Header user={user} setUser={setUser} />
+      <main className="main-content">
+        <Outlet />
+      </main>
+      <Footer />
     </div>
   );
 }
