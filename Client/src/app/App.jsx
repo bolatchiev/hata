@@ -44,7 +44,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout user={user} setUser={setUser} />}>
-          <Route path="/" element={<MainPage />} />
+          <Route path="/" element={<MainPage user={user}/>} />
 
           <Route path="/map" element={<OSMap />} />
           <Route
