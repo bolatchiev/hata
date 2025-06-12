@@ -9,7 +9,7 @@ export default function CardList({ user }) {
     const card = async () => {
       try {
         const response = await CardApi.getAll();
-        console.log("111111111111111", response);
+        // console.log("111111111111111", response);
         if (response.data) {
           setCards(response.data);
         }
