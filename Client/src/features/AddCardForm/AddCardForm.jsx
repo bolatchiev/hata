@@ -44,7 +44,6 @@ export default function AddCardForm({ userId, onClose }) {
   return (
     <div className="add-card-form-overlay">
       <div className="add-card-form">
-        <h2>Добавить новую карточку</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Тип:</label>

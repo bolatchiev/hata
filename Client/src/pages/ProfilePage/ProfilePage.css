@@ -1,42 +1,136 @@
 .profile-page {
-  padding: 20px;
-  max-width: 100%;
+  max-width: 1200px;
   margin: 0 auto;
+  padding: 30px 20px;
 }
 
 .profile-header {
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 30px;
-  padding: -40px;
+  margin-bottom: 40px;
 }
 
 .profile-title {
-  font-size: 28px;
-  color: #333;
-  margin: 0;
+  font-size: 2.5rem;
+  color: #2d3436;
   margin-bottom: 20px;
-  margin-left: 80px;
+  font-weight: 700;
+}
+
+.welcome-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+  padding: 30px;
+  margin-bottom: 30px;
+  border: 1px solid #f0f0f0;
+}
+
+.welcome-content h3 {
+  font-size: 1.5rem;
+  color: #2d3436;
+  margin-top: 0;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.features-list {
+  margin-bottom: 30px;
+}
+
+.feature-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 15px;
+  padding: 12px 15px;
+  background: #f9f9f9;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+.feature-item:hover {
+  background: #f1f8ff;
+  transform: translateX(5px);
+}
+
+.feature-icon {
+  font-size: 1.2rem;
+  margin-right: 15px;
+  color: #00b894;
+}
+
+.getting-started {
+  margin-top: 35px;
+}
+
+.getting-started h4 {
+  font-size: 1.3rem;
+  color: #2d3436;
+  margin-bottom: 20px;
+}
+
+.step-item {
+  display: flex;
+  margin-bottom: 20px;
+  padding-left: 10px;
+}
+
+.step-icon {
+  font-size: 1.2rem;
+  margin-right: 15px;
+  color: #0984e3;
+}
+
+.cta-text {
+  font-size: 1.2rem;
+  text-align: center;
+  margin-top: 30px;
+  color: #0984e3;
+  font-weight: 600;
+}
+
+.add-card-btn-container {
+  text-align: center;
+  margin-top: 20px;
 }
 
 .btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
+  padding: 12px 28px;
+  border-radius: 50px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-bottom: 20px;
-  margin-left: 75px;
+  border: none;
+  font-size: 1rem;
 }
 
 .add-btn {
-  background-color: #4a90e2;
+  background: #0984e3;
   color: white;
+  box-shadow: 0 4px 12px rgba(9, 132, 227, 0.3);
 }
 
 .add-btn:hover {
-  background-color: #3a7bc8;
+  background: #0779cf;
   transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(9, 132, 227, 0.4);
+}
+
+@media (max-width: 768px) {
+  .profile-title {
+    font-size: 2rem;
+  }
+
+  .welcome-card {
+    padding: 20px;
+  }
+
+  .feature-item,
+  .step-item {
+    flex-direction: column;
+  }
+
+  .feature-icon,
+  .step-icon {
+    margin-bottom: 8px;
+  }
 }
