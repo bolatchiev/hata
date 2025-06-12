@@ -7,9 +7,9 @@ reviewRouter
   // .get("/", ReviewController.getAllReview)
   .get('/:cardId', ReviewController.getReviewsForTheCard)
   .post('/:cardId', verifyAccessToken, ReviewController.add)
-  .get('/:cardId', ReviewController.getByCard);
-//   .post("/", ReviewController.addReview)
-//   .put('/:cardId', ReviewController.updateReview)
-//   .delete("/:id", ReviewController.deleteReview);
+  .get('/:cardId', ReviewController.getByCard)
+  //   .post("/", ReviewController.addReview)
+  //   .put('/:cardId', ReviewController.updateReview)
+  .delete('/:userId/:id', ReviewController.deleteReview);
 
 module.exports = reviewRouter;

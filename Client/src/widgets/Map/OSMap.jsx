@@ -1,8 +1,11 @@
+
 import React from 'react'
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
+import MapMarkers from '../../features/MapMarkers/MapMarkers';
+
 
 export default function OSMap() {
-    const position = [55.7558, 37.6176]; 
+    const position = [55.7558, 37.6176] 
 
     return (
       <MapContainer 
@@ -14,11 +17,7 @@ export default function OSMap() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={position}>
-          <Popup>
-            Местоположение маркера
-          </Popup>
-        </Marker>
+        <MapMarkers/>
       </MapContainer>
     );
   }
