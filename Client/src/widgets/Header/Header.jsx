@@ -23,7 +23,7 @@ export default function Header({ user, setUser }) {
         <nav className="nav">
           <img src="images/logo.png" alt="Logo" className="logo" />
           <NavLink
-            to="/main"
+            to="/"
             className={({ isActive }) =>
               `nav__link ${isActive ? "nav__link_active" : ""}`
             }
