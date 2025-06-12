@@ -13,10 +13,10 @@ const Footer = () => {
             </NavLink>
           </div>
           <div className="footer-info">
-            <span>support@example.com</span>
-            <span>+7 (895) 265-88-99</span>
+            <span>Hata@Dubai.com</span>
+            <span>+7 (777) 777-77-77</span>
             <span>
-              Адрес: г. Санкт-Петербург, Невский проспект, д.4, к.2, офис 6В
+              Адрес: ОАЭ, г. Дубай, Бурдж-Халифа, оф. 1
             </span>
           </div>
         </div>
