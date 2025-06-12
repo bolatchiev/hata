@@ -54,7 +54,16 @@ export default function Header({ user, setUser }) {
               </NavLink>
 
               <span>{user.email}</span>
-              <button onClick={logoutHandler}>Выход</button>
+              <NavLink
+                onClick={logoutHandler}
+                to="/auth/login"
+                className={({ isActive }) =>
+                  `auth-link ${isActive ? "auth-link_active" : ""}`
+                }
+              >
+                Выход
+              </NavLink>
+              {/* <button onClick={logoutHandler}>Выход</button> */}
             </>
           ) : (
             <>
