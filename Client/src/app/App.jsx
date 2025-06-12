@@ -11,6 +11,7 @@ import CardApi from "../entities/card/cardApi";
 import { setAccessToken } from "../shared/lib/axiosInstance";
 import OSMap from "../widgets/Map/OSMap";
 import FavouritePage from "../pages/FavouritePage/FavouritePage";
+import ContactPage from "../pages/ContactPage/ContactPage";
 
 export default function App() {
   const [user, setUser] = useState({});
@@ -80,10 +81,9 @@ export default function App() {
             }
           /> */}
 
-          <Route 
-  path="/favourite" 
-  element={user.name ? <FavouritePage user={user} /> : <Navigate to="/auth/login" />} 
+          <Route path="/favourite" element={user.name ? <FavouritePage user={user} /> : <Navigate to="/auth/login" />} 
 />
+          <Route path="/contacts" element={<ContactPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
