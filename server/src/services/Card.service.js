@@ -34,6 +34,7 @@ class CardService {
   //     ],
   //   });
   // }
+  //
   static async getById(id) {
     return await Card.findByPk(id, {
       include: [
