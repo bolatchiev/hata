@@ -74,9 +74,15 @@ export default function UserCard({ card, user, deleteHandler, updateCard }) {
             <h3 className="card-type">{card.type}</h3>
             <p className="card-description">{card.description}</p>
             <div className="card-properties">
-              <span className="card-price">Цена: {card.price} ₽</span>
-              <span className="card-city">Город: {card.city}</span>
-              <span className="card-floors">Этажи: {card.flors}</span>
+              <div>
+                <span className="card-price">Цена: {card.price} ₽</span>
+              </div>
+              <div>
+                <span className="card-city">Город: {card.city}</span>
+              </div>
+              <div>
+                <span className="card-floors">Этажи: {card.flors}</span>
+              </div>
             </div>
           </div>
         )}
