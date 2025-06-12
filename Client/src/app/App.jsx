@@ -10,6 +10,7 @@ import UserApi from "../entities/user/userApi";
 import CardApi from "../entities/card/cardApi";
 import { setAccessToken } from "../shared/lib/axiosInstance";
 import OSMap from "../widgets/Map/OSMap";
+import FavouritePage from "../pages/FavouritePage/FavouritePage";
 
 export default function App() {
   const [user, setUser] = useState({});
@@ -44,6 +45,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Layout user={user} setUser={setUser} />}>
           <Route path="/" element={<MainPage />} />
+
           <Route path="/map" element={<OSMap />} />
           <Route
             path="/auth/login"
@@ -71,6 +73,17 @@ export default function App() {
               )
             }
           />
+          {/* <Route
+            path="/favourite"
+            element={
+              <FavouritePage /> // user && не забыть добавить когда авторизация будет готова
+            }
+          /> */}
+
+          <Route 
+  path="/favourite" 
+  element={user.name ? <FavouritePage user={user} /> : <Navigate to="/auth/login" />} 
+/>
         </Route>
       </Routes>
     </BrowserRouter>
