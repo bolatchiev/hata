@@ -9,6 +9,7 @@ export default function RegForm({ onSubmit }) {
   const handleRegSubmit = (e) => {
     e.preventDefault();
     onSubmit(name, email, password);
+
   };
 
   return (
