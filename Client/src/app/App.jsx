@@ -19,9 +19,9 @@ export default function App() {
     const login = async () => {
       try {
         const response = await UserApi.refresh();
-        console.log("111111111111111", response);
+        // console.log("111111111111111", response);
         if (response.data.user) {
-          console.log("--------------------", response.data);
+          // console.log("--------------------", response.data);
           setUser(response.data.user);
           setAccessToken(response.data.accessToken);
         }

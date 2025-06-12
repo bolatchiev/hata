@@ -2,7 +2,7 @@ import React from 'react'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 
 export default function OSMap() {
-    const position = [51.505, -0.09]; // [широта, долгота]
+    const position = [55.7558, 37.6176]; 
 
     return (
       <MapContainer 
