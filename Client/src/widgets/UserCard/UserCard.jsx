@@ -3,7 +3,7 @@ import CardApi from "../../entities/card/cardApi";
 import "./UserCard.css";
 
 export default function UserCard({ card, user, deleteHandler, updateCard }) {
-  const [edit, setEdit] = useState(true);
+  const [edit, setEdit] = useState(false);
   const [editedCard, setEditedCard] = useState(card);
 
   const handleInputChange = (e) => {
@@ -29,9 +29,9 @@ export default function UserCard({ card, user, deleteHandler, updateCard }) {
   return (
     <div className="user-card">
       <img
-        src={card.image || "images/logo.png"}
+        src={card.photo || "images/logo.png"}
         alt={card.type}
-        className="card-image"
+        className="card-photo"
       />
       <div className="card-content">
         {edit ? (
@@ -81,7 +81,9 @@ export default function UserCard({ card, user, deleteHandler, updateCard }) {
                 <span className="card-city">Город: {card.city}</span>
               </div>
               <div>
-                <span className="card-floors">Этажи: {card.flors}</span>
+                <span className="card-floors">
+                  Количество комнат: {card.flors}
+                </span>
               </div>
             </div>
           </div>

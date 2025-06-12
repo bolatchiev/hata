@@ -31,6 +31,16 @@ export default function AddCardForm({ userId, onClose }) {
     }
   };
 
+  //   const saveHandler = async (e) => {
+  //     e.preventDefault();
+  //     try {
+  //       const data = await CardApi.create(newCard);
+  //       console.log("Updated data:", data);
+  //     } catch (error) {
+  //       console.log("Ошибка при создании карточки", error);
+  //     }
+  //   };
+
   return (
     <div className="add-card-form-overlay">
       <div className="add-card-form">
@@ -78,7 +88,7 @@ export default function AddCardForm({ userId, onClose }) {
           </div>
 
           <div className="form-group">
-            <label>Этажи:</label>
+            <label>Количество комнат:</label>
             <input
               name="flors"
               value={newCard.flors}
@@ -98,7 +108,11 @@ export default function AddCardForm({ userId, onClose }) {
           </div>
 
           <div className="form-actions">
-            <button type="submit" className="btn save-btn">
+            <button
+              //   onClick={saveHandler}
+              type="submit"
+              className="btn save-btn"
+            >
               Сохранить
             </button>
             <button type="button" className="btn cancel-btn" onClick={onClose}>
