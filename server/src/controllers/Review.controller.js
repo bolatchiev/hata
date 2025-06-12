@@ -1,5 +1,5 @@
 const ReviewService = require('../services/Review.service');
-const {formatResponse} = require('../utils/formatResponse');
+const { formatResponse } = require('../utils/formatResponse');
 
 class ReviewController {
   static async getReviewsForTheCard(req, res) {
@@ -7,26 +7,22 @@ class ReviewController {
 
     try {
       const cardReviews = await ReviewService.getAllReviewsForCard(cardId);
-      return res
-        .status(200)
-        .json(
-          formatResponse({
-            statusCode: 200,
-            message: 'Отзыв предоставлен',
-            data: cardReviews,
-          }),
-        );
+      return res.status(200).json(
+        formatResponse({
+          statusCode: 200,
+          message: 'Отзыв предоставлен',
+          data: cardReviews,
+        }),
+      );
     } catch (error) {
       console.log(error);
-      return res
-        .status(500)
-        .json(
-          formatResponse({
-            statusCode: 500,
-            message: 'Невозможнно найти отзывы',
-            error: error.message,
-          }),
-        );
+      return res.status(500).json(
+        formatResponse({
+          statusCode: 500,
+          message: 'Невозможнно найти отзывы',
+          error: error.message,
+        }),
+      );
     }
   }
 
@@ -36,26 +32,22 @@ class ReviewController {
     const { text } = req.body;
     try {
       const review = await ReviewService.addReview({ cardId, userId, text });
-      return res
-        .status(201)
-        .json(
-          formatResponse({
-            statusCode: 200,
-            message: 'Отзыв успешно добавлен',
-            data: review,
-          }),
-        );
+      return res.status(201).json(
+        formatResponse({
+          statusCode: 200,
+          message: 'Отзыв успешно добавлен',
+          data: review,
+        }),
+      );
     } catch (error) {
       console.error(error);
-      return res
-        .status(500)
-        .json(
-          formatResponse({
-            statusCode: 500,
-            message: 'Internal server error',
-            error: error.message,
-          }),
-        );
+      return res.status(500).json(
+        formatResponse({
+          statusCode: 500,
+          message: 'Internal server error',
+          error: error.message,
+        }),
+      );
     }
   }
 
@@ -68,15 +60,41 @@ class ReviewController {
         .json(formatResponse({ statusCode: 200, message: 'success', data: reviews }));
     } catch (error) {
       console.error(error);
+      return res.status(500).json(
+        formatResponse({
+          statusCode: 500,
+          message: 'Internal server error',
+          error: error.message,
+        }),
+      );
+    }
+  }
+
+  static async deleteReview(req, res) {
+    const { userId, id } = req.params;
+    const user = res.locals;
+
+    if (user.userId !== userId) {
       return res
-        .status(500)
+        .status(403)
         .json(
-          formatResponse({
-            statusCode: 500,
-            message: 'Internal server error',
-            error: error.message,
-          }),
+          formatResponse({ statusCode: 403, message: 'У тебя нет прав на удаление' }),
         );
+    }
+    try {
+      await ReviewService.deleteReview(id);
+      return res
+        .status(200)
+        .json(formatResponse({ statusCode: 200, message: 'success' }));
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json(
+        formatResponse({
+          statusCode: 500,
+          message: 'Internal server error',
+          error: error.message,
+        }),
+      );
     }
   }
 }

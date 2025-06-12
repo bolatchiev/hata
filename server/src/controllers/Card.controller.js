@@ -5,7 +5,7 @@ class CardController {
   static async getAllCards(req, res) {
     try {
       const cards = await CardService.getAll();
-      console.log(cards)
+      console.log(cards);
       if (cards.length === 0) {
         return res
           .status(400)
@@ -77,6 +77,15 @@ class CardController {
 
   static async deleteCard(req, res) {
     const { id } = req.params;
+    const user = res.locals;
+    if (user.isAdmin === false) {
+      return res.status(403).json(
+        formatResponse({
+          statusCode: 403,
+          message: 'Ты не админ',
+        }),
+      );
+    }
 
     try {
       const cardToDelete = await CardService.delete(+id);
@@ -106,15 +115,13 @@ class CardController {
     try {
       const createdCard = await CardService.create(data);
 
-      return res
-        .status(200)
-        .json(
-          formatResponse({
-            statusCode: 200,
-            message: 'Card successfully created',
-            data: cardToDelete,
-          }),
-        );
+      return res.status(200).json(
+        formatResponse({
+          statusCode: 200,
+          message: 'Card successfully created',
+          data: cardToDelete,
+        }),
+      );
     } catch ({ message }) {
       console.error(message);
       res.status(500).json(formatResponse({ statusCode: 500, message: 'Server error' }));

@@ -7,9 +7,8 @@ import LoginPage from "../pages/LoginPage/LoginPage";
 import RegFormPage from "../pages/RegFormPage/RegFormPage";
 import UserApi from "../entities/user/userApi";
 import { setAccessToken } from "../shared/lib/axiosInstance";
-import 'leaflet/dist/leaflet.css';
+// import "leaflet/dist/leaflet.css";
 import OSMap from "../widgets/Map/OSMap";
-
 
 export default function App() {
   const [user, setUser] = useState({});
@@ -44,7 +43,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Layout user={user} setUser={setUser} />}>
           <Route element={<MainPage />} />
-          <Route path="/map" element={<OSMap/>} />
+          <Route path="/map" element={<OSMap />} />
           <Route
             path="/auth/login"
             element={
