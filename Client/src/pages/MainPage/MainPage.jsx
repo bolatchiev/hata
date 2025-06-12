@@ -13,20 +13,21 @@ export default function MainPage() {
   useEffect(() => {
     async function getAllCards() {
       const allCards = await TaskApi.getAll();
-      setCards(allCards);
+      
+      setCards(allCards.data);
     }
     getAllCards();
   }, []);
-console.log(cards, '------------------')
+  console.log(cards, "++++++++++++++++++")
   return (
-    <>
+    <div>
       {cards?.map((el) => (
             <CardPage key={el.id} entry={el} />
           ))}
-      <FilterCard />
+      {/* <FilterCard />
 
       <LoginPage />
-      <RegFormPage />
-    </>
+      <RegFormPage /> */}
+    </div>
   );
 }
