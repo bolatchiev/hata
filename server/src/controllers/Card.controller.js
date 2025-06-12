@@ -48,16 +48,11 @@ class CardController {
 
   static async updateCard(req, res) {
     const { id } = req.params;
-    const { data } = req.body;
-
-    if (isNaN(Number(id))) {
-      return res
-        .status(400)
-        .json(formatResponse({ statusCode: 400, message: 'Invalid ID' }));
-    }
+    const taskData = req.body;
+    console.log('%%%%%%%%%%%%%', taskData);
 
     try {
-      const updatedCard = await CardService.update(id, data);
+      const updatedCard = await CardService.update(id, taskData);
       if (!updatedCard) {
         return res.status(404).json(
           formatResponse({
@@ -119,7 +114,7 @@ class CardController {
         formatResponse({
           statusCode: 200,
           message: 'Card successfully created',
-          data: cardToDelete,
+          data: createdCard,
         }),
       );
     } catch ({ message }) {

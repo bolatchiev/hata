@@ -40,9 +40,11 @@ class CardService {
   }
 
   static async update(id, data) {
+    console.log('232323232', data);
     const card = await Card.findByPk(id);
     if (card) {
       card.photo = data.photo;
+      console.log('3333333333333333333', card);
       card.description = data.description;
       card.price = data.price;
       card.type = data.type;
