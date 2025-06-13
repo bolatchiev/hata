@@ -5,7 +5,7 @@ class CardController {
   static async getAllCards(req, res) {
     try {
       const cards = await CardService.getAll();
-      console.log(cards);
+      // console.log(cards);
       if (cards.length === 0) {
         return res
           .status(400)
@@ -49,7 +49,7 @@ class CardController {
   static async updateCard(req, res) {
     const { id } = req.params;
     const taskData = req.body;
-    console.log('%%%%%%%%%%%%%', taskData);
+    // console.log('%%%%%%%%%%%%%', taskData);
 
     try {
       const updatedCard = await CardService.update(id, taskData);

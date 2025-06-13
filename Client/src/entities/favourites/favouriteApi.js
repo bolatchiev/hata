@@ -61,4 +61,6 @@ export default class FavoriteApi {
       throw error;
     }
   }
+
+  
 }
