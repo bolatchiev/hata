@@ -25,6 +25,10 @@ export default function CardPage({ card }) {
     if (savedRating) {
       setUserRating(parseInt(savedRating));
     }
+    const savedFavorite = localStorage.getItem(`favorite_${card.id}`);
+    if (savedFavorite) {
+      setIsFavorite(savedFavorite === "true");
+    }
   }, [card.id]);
 
   const handleFavorite = () => setIsFavorite(!isFavorite);
