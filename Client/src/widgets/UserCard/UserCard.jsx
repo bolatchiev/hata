@@ -30,7 +30,7 @@ export default function UserCard({ card, user, deleteHandler, updateCard }) {
   return (
     <div className="user-card">
       <img
-        src={card.photo || "images/logo.png"}
+        src={card.photo || "images/dom.jpg"}
         alt={card.type}
         className="card-photo"
       />
