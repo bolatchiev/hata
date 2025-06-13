@@ -3,6 +3,7 @@ const { formatResponse } = require('../utils/formatResponse');
 
 class FavoriteController {
   static async getAllFavoritesForTest(req, res) {
+ 
     try {
       const testFavoriteCards = await FavoriteService.getAllForTest();
 
@@ -17,11 +18,16 @@ class FavoriteController {
 
   static async addToFavourites(req, res) {
     try {
-      const { cardId } = req.params;
+      
+      console.log("+++++++++++++++++++++++++++++++", req.params)
+      const { id: cardId } = req.params
+      console.log(cardId)
       const userId = res.locals.user.id;
+ console.log("1" , userId, cardId)
 
       const result = await FavoriteService.addFavourite(userId, cardId);
 
+console.log('2')
       if (!result) {
         return res.status(400).json(
           formatResponse({
@@ -55,6 +61,9 @@ class FavoriteController {
       const { cardId } = req.params;
       const userId = res.locals.user.id;
 
+      console.log('--------------------', cardId, userId)
+
+
       if (!cardId || !userId) {
         return res.status(400).json(
           formatResponse({
@@ -66,6 +75,7 @@ class FavoriteController {
       }
 
       const result = await FavoriteService.deleteFavourite(userId, cardId);
+     
 
       if (result === 0) {
         return res.status(404).json(
@@ -96,6 +106,7 @@ class FavoriteController {
 
   static async getUserFavorites(req, res) {
     const userId = res.locals.user.id;
+    console.log('2222222222222222222222222222', userId)
 
     // Валидация userId
     if (!userId) {
@@ -110,6 +121,7 @@ class FavoriteController {
 
     try {
       const favoriteCards = await FavoriteService.getFavoritesByUser(userId);
+    
 
       return res.status(200).json(
         formatResponse({
@@ -129,11 +141,14 @@ class FavoriteController {
       );
     }
   }
+    
 
   static async checkIsFavourite(req, res) {
+   
     try {
       const { cardId } = req.params;
       const userId = res.locals.user.id;
+      
 
       if (!userId || !cardId) {
         return res.status(400).json(
@@ -170,18 +185,18 @@ class FavoriteController {
   static async switchFavorite(req, res) {
     const userId = res.locals.user.id;
     const { cardId } = req.params;
-
+console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", userId, cardId)
     try {
-      const favoriteCard = await FavoriteService.isFavorite(userId, cardId);
+      const favoriteCard = await FavoriteService.switchFavorite(userId, cardId);
 
-      if (favoriteCard) {
-        await FavoriteService.remove(userId, cardId);
-        return res
-          .status(200)
-          .json({ statusCode: 200, message: 'Удалено из избранного' });
-      }
-      await FavoriteService.add(userId, cardId);
-      return res.status(201).json({ statusCode: 201, message: 'Добавлено в избранное' });
+      // if (favoriteCard) {
+      //   await FavoriteService.remove(userId, cardId);
+      //   return res
+      //     .status(200)
+      //     .json({ statusCode: 200, message: 'Удалено из избранного' });
+      // }
+      // await FavoriteService.add(userId, cardId);
+      return res.status(201).json({ statusCode: 201, message: 'Добавлено в избранное' , favoriteCard});
     } catch (error) {
       console.log(error);
       return res.status(500).json({ statusCode: 500, error: 'Ошибка сервера' });

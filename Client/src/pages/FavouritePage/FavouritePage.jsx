@@ -135,6 +135,8 @@ const FavouritePage = ({ user }) => {
           );
           
           setFavorites(cardsData.filter(Boolean)); // Фильтруем null/undefined
+
+          console.log(favorites)
         }
       } catch (err) {
         console.error('Error loading favorites:', err);
