@@ -1,10 +1,13 @@
+import { data, useNavigate, useParams} from "react-router";
+import { FaRegHeart, FaHeart, FaStar } from "react-icons/fa";
+import FavoriteApi from "../../entities/favourites/favouriteApi";
+import axiosInstance from "../../shared/lib/axiosInstance";
 import React, { useState, useEffect } from "react";
 import styles from "./CardPage.module.css";
-import { useNavigate, useParams } from "react-router";
-import { FaRegHeart, FaHeart, FaStar } from "react-icons/fa";
 import RateApi from "../../entities/rate/rateApi";
 
-export default function CardPage({ card }) {
+
+export default function CardPage({ card , user}) {
   const [isFavorite, setIsFavorite] = useState(false);
   const [rating, setRating] = useState(0);
   const [userRating, setUserRating] = useState(0);
@@ -24,7 +27,38 @@ export default function CardPage({ card }) {
       .catch(() => {});
   }, [card.id]);
 
-  const handleFavorite = () => setIsFavorite(!isFavorite);
+  // const handleFavorite = () => setIsFavorite(!isFavorite);
+  useEffect(() => {
+    const checkFav = async () => {
+      try {
+        const response = await FavoriteApi.getUserFavorites(user.id)
+        const favorite = response.data
+        console.log(response)
+        setIsFavorite(response.some(el => el.cardId === card.id))
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    if(user.id) checkFav()
+  },[card.id, user.id])
+
+
+  const handleFavorite = async () => {
+    if(!user.id) return 
+    try {
+      FavoriteApi.toggleFavorite(card.id)
+      // if(isFavorite){
+      //   await axiosInstance.delete(`/favourite/${card.id}`)
+      // }
+      // else {axiosInstance.post(`/favourite/${card.id}`)}
+      setIsFavorite(!isFavorite)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
   const showDetails = () => navigate(`/contacts`);
 
   const handleRate = async (newRating) => {

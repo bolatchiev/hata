@@ -103,7 +103,7 @@ export default function MainPage({ user }) {
       ) : (
         <div className={styles.cardGrid}>
           {filteredCards.map(card => (
-            <CardPage key={card.id} card={card} />
+            <CardPage key={card.id} user={user} card={card} />
           ))}
         </div>
       )}
