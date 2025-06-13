@@ -2,7 +2,6 @@ const { Rate } = require('../../db/models');
 
 class RateService {
   static async createOrUpdate({ cardId, userId, mark }) {
-    // если уже оценивал — обновляем, иначе создаём
     const [rate] = await Rate.upsert(
       { cardId, userId, mark },
       { where: { cardId, userId }, returning: true },
@@ -29,7 +28,7 @@ class RateService {
   }
 
   static async update(id, data) {
-    const rate = await this.getById(id);
+    const rate = await this.findByPk(id);
     if (rate) {
       rate.title = data.title;
       rate.body = data.body;

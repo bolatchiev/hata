@@ -95,3 +95,46 @@
   background-color: rgba(231, 76, 60, 0.1);
   color: #e74c3c;
 }
+
+.ratingContainer {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: 10px 0;
+}
+
+.ratingStar {
+  cursor: pointer;
+  color: #ddd;
+  font-size: 1.2rem;
+  transition: color 0.2s;
+}
+
+.ratingStar.filled {
+  color: #ffc107;
+}
+
+.ratingStar:hover {
+  transform: scale(1.1);
+}
+
+.ratingText {
+  margin-left: 8px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background-color: #f8f9fa;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-weight: bold;
+}
+
+.starIcon {
+  color: #ffc107;
+  font-size: 1.1rem;
+}
