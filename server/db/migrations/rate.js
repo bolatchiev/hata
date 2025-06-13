@@ -40,6 +40,11 @@ module.exports = {
         defaultValue: Sequelize.fn('NOW'),
       },
     });
+    await queryInterface.addConstraint('Rates', {
+      fields: ['cardId', 'userId'],
+      type: 'unique',
+      name: 'unique_user_rate_per_card',
+    });
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Rates');
