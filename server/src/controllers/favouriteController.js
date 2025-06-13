@@ -17,8 +17,8 @@ class FavoriteController {
 
   static async addToFavourites(req, res) {
     try {
-      const { id: cardId } = req.params;
-      const { id: userId } = req.user;
+      const { cardId } = req.params;
+      const userId = res.locals.user.id;
 
       const result = await FavoriteService.addFavourite(userId, cardId);
 
@@ -52,8 +52,8 @@ class FavoriteController {
 
   static async removeFromFavourites(req, res) {
     try {
-      const { id: cardId } = req.params;
-      const { id: userId } = req.user;
+      const { cardId } = req.params;
+      const userId = res.locals.user.id;
 
       if (!cardId || !userId) {
         return res.status(400).json(
@@ -72,7 +72,6 @@ class FavoriteController {
           formatResponse({
             statusCode: 404,
             message: 'Объявление не найдено в избранном',
-            data: { success: false },
           }),
         );
       }
@@ -81,11 +80,11 @@ class FavoriteController {
         formatResponse({
           statusCode: 200,
           message: 'Удалено из избранного',
-          data: { success: true, deletedCount: result },
+          data: result,
         }),
       );
     } catch (error) {
-      console.error('Error in removeFromFavourites:', error);
+      console.error('Ошибка удаления избранного', error);
       return res.status(500).json(
         formatResponse({
           statusCode: 500,
@@ -96,7 +95,7 @@ class FavoriteController {
   }
 
   static async getUserFavorites(req, res) {
-    const { userId } = req.params;
+    const userId = res.locals.user.id;
 
     // Валидация userId
     if (!userId) {
@@ -125,10 +124,7 @@ class FavoriteController {
         formatResponse({
           statusCode: 500,
           message: 'Ошибка сервера',
-          error:
-            process.env.NODE_ENV === 'development'
-              ? error.message
-              : 'Внутренняя ошибка сервера',
+          error: 'Внутренняя ошибка сервера',
         }),
       );
     }
@@ -136,7 +132,8 @@ class FavoriteController {
 
   static async checkIsFavourite(req, res) {
     try {
-      const { userId, cardId } = req.params;
+      const { cardId } = req.params;
+      const userId = res.locals.user.id;
 
       if (!userId || !cardId) {
         return res.status(400).json(
@@ -159,7 +156,7 @@ class FavoriteController {
         }),
       );
     } catch (error) {
-      console.error('Error in checkIsFavourite:', error);
+      console.error('Ошибка поиска избранного', error);
       res.status(500).json(
         formatResponse({
           statusCode: 500,

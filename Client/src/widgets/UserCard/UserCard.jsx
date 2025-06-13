@@ -25,7 +25,7 @@ export default function UserCard({ card, user, deleteHandler, updateCard }) {
   };
 
   const canDelete = user.isAdmin || card.userId === user.id;
-  const canEdit = user.isAdmin || card.userId === user.id;
+  // const canEdit = user.isAdmin || card.userId === user.id;
 
   return (
     <div className="user-card">
@@ -101,7 +101,7 @@ export default function UserCard({ card, user, deleteHandler, updateCard }) {
           )}
 
           {card.userId === user.id &&
-            (canEdit ? (
+            (edit ? (
               <button className="btn save-btn" onClick={handleSave}>
                 Сохранить
               </button>
