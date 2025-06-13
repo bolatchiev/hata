@@ -14,14 +14,17 @@ export default function CardPage({ card }) {
   const { id, cardId, mark } = useParams();
 
   useEffect(() => {
-    RateApi.getAll(card.id)
-      .then((res) => {
-        const arr = Array.isArray(res) ? res : res.data || [];
-        const sum = arr.reduce((s, r) => s + r.mark, 0);
-        const avg = arr.length ? sum / arr.length : 0;
-        setAvgRating(avg);
-      })
-      .catch(() => {});
+    RateApi.getAll(card.id).then((res) => {
+      const arr = Array.isArray(res) ? res : res.data || [];
+      const sum = arr.reduce((s, r) => s + r.mark, 0);
+      const avg = arr.length ? sum / arr.length : 0;
+      setAvgRating(avg);
+    });
+
+    const savedRating = localStorage.getItem(`rating_${card.id}`); // !!
+    if (savedRating) {
+      setUserRating(parseInt(savedRating));
+    }
   }, [card.id]);
 
   const handleFavorite = () => setIsFavorite(!isFavorite);
@@ -35,6 +38,8 @@ export default function CardPage({ card }) {
         mark: newRating,
       });
       console.log("-------------", rateResponse);
+
+      localStorage.setItem(`rating_${card.id}`, newRating.toString()); // !
 
       setUserRating(newRating);
       const ratesResponse = await RateApi.getAll(card.id);
