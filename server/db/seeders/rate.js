@@ -16,7 +16,7 @@ module.exports = {
       {
         cardId: 3,
         userId: 2,
-        mark: 4, // ← оставляем только эту запись
+        mark: 4,
       },
       {
         cardId: 4,

@@ -1,10 +1,11 @@
 const RateService = require('../services/Rate.service');
-const {formatResponse} = require('../utils/formatResponse');
+const { formatResponse } = require('../utils/formatResponse');
 
 class RateController {
   static async getAllRates(req, res) {
     try {
       const rates = await RateService.getAll();
+      console.log(rates);
 
       if (rates.length === 0) {
         return res
@@ -31,9 +32,10 @@ class RateController {
 
   static async getRateById(req, res) {
     const { id } = req.params;
+    console.log(req.body);
 
     try {
-      const rate = await RateService.getById(+id);
+      const rate = await RateService.getById(id);
 
       if (!rate) {
         return res
@@ -48,15 +50,13 @@ class RateController {
         .json(formatResponse({ statusCode: 200, message: 'success', data: rate }));
     } catch ({ message }) {
       console.error(message);
-      res
-        .status(500)
-        .json(
-          formatResponse({
-            statusCode: 500,
-            message: 'Internal server error',
-            error: 'Internal server error',
-          }),
-        );
+      res.status(500).json(
+        formatResponse({
+          statusCode: 500,
+          message: 'Internal server error',
+          error: 'Internal server error',
+        }),
+      );
     }
   }
 
@@ -71,15 +71,13 @@ class RateController {
         .json(formatResponse({ statusCode: 201, message: 'success', data: rate }));
     } catch (err) {
       console.error(err);
-      return res
-        .status(500)
-        .json(
-          formatResponse({
-            statusCode: 500,
-            message: 'Internal server error',
-            error: 'Internal server error',
-          }),
-        );
+      return res.status(500).json(
+        formatResponse({
+          statusCode: 500,
+          message: 'Internal server error',
+          error: 'Internal server error',
+        }),
+      );
     }
   }
 
@@ -92,15 +90,13 @@ class RateController {
         .json(formatResponse({ statusCode: 200, message: 'success', data: rates }));
     } catch (err) {
       console.error(err);
-      return res
-        .status(500)
-        .json(
-          formatResponse({
-            statusCode: 500,
-            message: 'Internal server error',
-            error: 'Internal server error',
-          }),
-        );
+      return res.status(500).json(
+        formatResponse({
+          statusCode: 500,
+          message: 'Internal server error',
+          error: 'Internal server error',
+        }),
+      );
     }
   }
 }

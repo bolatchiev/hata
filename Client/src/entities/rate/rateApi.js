@@ -1,23 +1,34 @@
 import { axiosInstance } from "../../shared/lib/axiosInstance";
 
-export default class TaskApi {
-  static async getAll() {
-    const { data } = await axiosInstance.get("/rate");
-    return data;
-  }
+const RateApi = {
+  getAll: async (cardId) => {
+    try {
+      const response = await axiosInstance.get(`/rate/${cardId}`, {
+        withCredentials: true,
+      });
+      return response.data?.data || [];
+    } catch (error) {
+      console.error("Ошибка при получении оценок:", error);
+      return [];
+    }
+  },
 
-  static async getById(id) {
-    const { data } = await axiosInstance.get(`/rate/${id}`);
-    return data;
-  }
+  createOrUpdate: async (cardId, { mark }) => {
+    try {
+      const response = await axiosInstance.post(
+        `/rate/${cardId}`,
+        { mark },
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      return response.data?.data;
+    } catch (error) {
+      console.error("Ошибка при сохранении оценки:", error);
+      throw error;
+    }
+  },
+};
 
-  static async create(cardId, taskData) {
-    const { data } = await axiosInstance.post(`${cardId}/rate`, taskData);
-    return data;
-  }
-
-  static async getByCard(cardId, taskData) {
-    const { data } = await axiosInstance.get(`${cardId}/rate`, taskData);
-    return data;
-  }
-}
+export default RateApi;
